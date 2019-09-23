@@ -11,11 +11,3 @@ for i in range(3, 1000, 1):
         sum += i
 
 print(sum)
-
-
-
-
-
-
-
-
