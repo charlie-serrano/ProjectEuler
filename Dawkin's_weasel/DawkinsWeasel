@@ -1,0 +1,105 @@
+import random
+import string
+import copy
+
+def create_one_rand_string(length):
+    s = ""
+
+    for i in range(length):
+        s += random.choice(alphabet)
+
+    return s
+
+def create_n_random_strings(n, length):
+
+    all_strings = [0] * n
+
+    for i in range(n):
+        all_strings[i] = list(create_one_rand_string(length))
+
+    return all_strings
+
+def create_copies(n, array):
+
+    output_array = [0] * n
+
+    for i in range(n):
+        output_array[i] = copy.deepcopy(array)
+
+    return output_array
+
+
+def mutate(array, probability, target):
+
+    # Throw error if array not in right format
+    # if len(target) != len(array[0]):
+    #     pass
+
+    # Initalise variables
+    trg = list(target)
+    copies = len(array)
+    length = len(target)
+    success = [0]*copies
+
+    # Selectively mutate each array
+    for i in range(copies):
+        for j in range(length):
+
+            if array[i][j] == trg[j]:
+                success[i] += 1
+                continue
+
+            p = random.random()
+
+            if p <= probability:
+                array[i][j] = random.choice(alphabet)
+
+    #Select best performing array for re-breeding
+    max_score = max(success)
+    max_index = success.index(max_score)
+    array_to_evolve = array[max_index]
+    new_array = create_copies(copies, array_to_evolve)
+
+    return new_array, max_score
+
+
+def evolve(probability, target, population):
+    length = len(target)
+    max_score = 0
+    iterations = 0
+
+    array = create_n_random_strings(population, length)
+
+    while max_score < length:
+        print(array[0])
+        array, max_score = mutate(array, probability, target)
+        iterations +=1
+
+
+    print("Success! Took " + str(iterations) + " iterations.")
+    print("Message: ")
+
+    for i in range(length):
+
+        print(array[0][i], end = "")
+
+    return array
+
+#### Tests ####
+
+# a = create_n_random_strings(3,5)
+# print(a)
+#
+# b = mutate(a, 0.5, target_string)
+# print(b)
+
+alphabet = list(string.ascii_uppercase + " ")
+target_string = 'METHINKS IT IS LIKE A WEASEL'
+
+c = evolve(0.05, target_string, 100)
+
+
+
+
+
+
