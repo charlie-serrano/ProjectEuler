@@ -83,16 +83,3 @@ def evolve(probability, target, population):
         print(array[0][i], end="")
 
     return array
-
-
-# Set variables
-alphabet = list(string.ascii_uppercase + " ")
-target_string = 'METHINKS IT IS LIKE A WEASEL'
-probability = 0.05
-population = 100
-
-
-# Run evolution
-x = evolve(probability, target_string, population)
-
-
